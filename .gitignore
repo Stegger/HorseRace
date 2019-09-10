@@ -1,0 +1,39 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+
+# Created by https://www.gitignore.io/api/greenfoot
+# Edit at https://www.gitignore.io/?templates=greenfoot
+
+### greenfoot ###
+# Greenfoot: A BlueJ-based game IDE for programming beginners. http://bluej.org
+
+# Editor preferences for a class etc, see http://lists.bluej.org/pipermail/bluej-discuss/2003-May/002351.html
+*.ctxt
+
+# Project file. Continously checking it in destroys the project ocasionally (while merging etc.) because it changes completely at every compile. Instead, make a copy of the file after the first runtime and name it e.g. `project.example.greenfoot`. See http://bugs.bluej.org/greenfoot/ticket/409
+
+project.greenfoot
+
+# End of https://www.gitignore.io/api/greenfoot
