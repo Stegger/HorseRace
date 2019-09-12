@@ -17,10 +17,10 @@ public class RaceWorld extends World
     
     private int totalRunners = 6;
     private int finishedRunners = 0;
+    private WinnerList winnerList;
     
     /**
      * Constructor for objects of class RaceWorld.
-     * 
      */
     public RaceWorld()
     {    
@@ -29,27 +29,49 @@ public class RaceWorld extends World
         setPaintOrder(Runner.class, FinishLine.class);
         addRunnersToStart();
         drawFinishLine();     
+        winnerList = new WinnerList();
     }
     
     public void act()
     {
         if(finishedRunners==totalRunners)
         {
-            Greenfoot.setWorld(new GameOverWorld());
+            Greenfoot.setWorld(new GameOverWorld(winnerList));
         }
     }
     
+    /**
+     * Create Runners and add them to the world.
+     */
     private void addRunnersToStart()
     {
         int yOffset = HEIGHT - INITIAL_RUNNER_Y_OFFSET;
         for(int i = 0; i < totalRunners; i++)
         {
-            Runner runner = new Runner(1);
+            Runner runner = new Runner("Wombat "+i);
             addObject(runner, INITIAL_RUNNER_X_OFFSET, yOffset);
+            getBackground().setColor(Color.RED);
+            getBackground().setFont(new Font(22));
+            getBackground().drawString("#"+(totalRunners-i), INITIAL_RUNNER_X_OFFSET, yOffset);
+            drawRunnerOnScreen(runner, (totalRunners-i));
             yOffset -= (runner.getImage().getHeight() + RUNNER_PADDING);
         }
     }
     
+    /**
+     * Draws the Runner on the screen.
+     */
+    private void drawRunnerOnScreen(Runner runner, int lane)
+    {
+        int sizePerLane = 15;
+        getBackground().setColor(Color.RED);
+        getBackground().setFont(new Font(12));
+        getBackground().drawString("Lane #" + lane + ": " + runner.getName(), 15, sizePerLane * lane);
+    }
+    
+    /**
+     * Draw the finish line across the screen
+     */
     private void drawFinishLine()
     {
         int xPosOfFinishLine = WIDTH - 75;
@@ -62,8 +84,12 @@ public class RaceWorld extends World
         }   
     }
     
+    /**
+     * Register a runner as having finished
+     */
     public void runnerHasFinished(Runner runner)
     {
         finishedRunners++;
+        winnerList.addRunner(runner);
     }
 }

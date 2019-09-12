@@ -8,15 +8,24 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Runner extends Actor
 {
-    public int speed;
+    public static final int RUNNER_BASE_SPEED = 1;
+    public static final int BASE_SPEED_ADDITION_RANGE = 3;
+    public static final int RANDOM_MOVE_FACTOR = 4;
+    
+    private int baseSpeed;
     private boolean hasFinished;
     private int position;
+    private String name;
     
-    public Runner(int speed)
+    /**
+     * Construct a new runner
+     */
+    public Runner(String name)
     {
-        this.speed = speed;
+        this.name = name;
         hasFinished = false;
-        position = 0;
+        position = -1; //Set the position to negative one
+        baseSpeed = RUNNER_BASE_SPEED + Greenfoot.getRandomNumber(BASE_SPEED_ADDITION_RANGE);
     }
     
     /**
@@ -27,17 +36,28 @@ public class Runner extends Actor
     {
         if(isAtFinishLine() && !hasFinished)
         {
-            RaceWorld rw = (RaceWorld) getWorld();
-            rw.runnerHasFinished(this);
-            hasFinished = true;
+            RaceWorld rw = (RaceWorld) getWorld(); //Get a reference to the RaceWorld
+            rw.runnerHasFinished(this); //The runner tells the world that is has finished
+            hasFinished = true; //I switch this variable to true so I only finish once
         }
         
-        if(!isAtEdge())
+        if(!isAtEdge()) //The runner will keep running to the end og the world
         {
-            move(speed + Greenfoot.getRandomNumber(3));
+            move(baseSpeed + Greenfoot.getRandomNumber(RANDOM_MOVE_FACTOR)-(RANDOM_MOVE_FACTOR/2));
         }
     }
     
+    /**
+     * Get name of the wombat
+     */
+    public String getName()
+    {
+        return name;
+    }
+    
+    /**
+     * Check to see if the Runner is at the finish line
+     */
     public boolean isAtFinishLine()
     {
         FinishLine fl = (FinishLine) getOneIntersectingObject(FinishLine.class);
