@@ -19,6 +19,8 @@ public class WinnerList extends Actor
     public WinnerList()
     {
         img = new GreenfootImage(WIDTH,HEIGHT);
+        img.setColor(Color.WHITE);
+        img.setFont(new Font(FONT_SIZE));
         setImage(img);
         position = 1;
     }
@@ -28,8 +30,6 @@ public class WinnerList extends Actor
      */
     public void addRunner(Runner runner)
     {
-        img.setColor(Color.WHITE);
-        img.setFont(new Font(FONT_SIZE));
         img.drawString(runner.getName(), 0, LINE_SIZE*position);
         position++;
     }
