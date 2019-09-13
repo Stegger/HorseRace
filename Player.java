@@ -1,26 +1,86 @@
+import greenfoot.*;
+
 /**
- * Write a description of class Player here.
+ * A player is an Object that can place bets on the runners.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Stegger 
+ * @version 2.X
  */
-public class Player  
+public class Player extends ClickableActor
 {
-    // instance variables - replace the example below with your own
+    private String name;
     private int cash;
+    
+    private TextArea textAreaCash;
 
     /**
      * Constructor for objects of class Player
      */
-    public Player()
+    public Player(String name)
     {
+        this.name = name;
         cash = 0;
     }
 
-    public void addWinning(int amount)
+    public void act()
     {
-        cash = cash + amount;
+        if(isGettingClicked())
+        {
+            String betSizeString = javax.swing.JOptionPane.showInputDialog("Please enter bet size:");
+            int betSize = Integer.parseInt(betSizeString);
+            getWorld().addObject(new Bet(this,betSize), mouse.getX(), mouse.getY());
+            setCash(getCash()-betSize);
+        }
+        else
+        {
+            moveAround();
+        }
     }
     
+    /**
+     * Move the player around randomly in the area above the race track.
+     */
+    private void moveAround()
+    {
+        if(getY()>75)
+        {
+            setRotation(270);
+        }
+        else if(getX()<75)
+        {
+            setRotation(0);
+        }
+        else if (getX()>getWorld().getWidth()-50)
+        {
+            setRotation(180);
+        }
+        else if (isTouching(Player.class))
+        {
+            Actor actor = getOneIntersectingObject(Player.class);
+            turnTowards(actor.getX(), actor.getY());
+            turn(180);
+        }
+        else if(Greenfoot.getRandomNumber(100) < 3)
+        {
+            setRotation(Greenfoot.getRandomNumber(360));
+        }
+        move(1);
+    }
+    
+    public void setCash(int cash)
+    {
+        this.cash = cash;
+        if(textAreaCash != null)
+        {
+            getWorld().removeObject(textAreaCash);
+        }
+        textAreaCash = new TextArea(cash + "€", this, -30);
+        getWorld().addObject(textAreaCash, 0, 0);
+    }
+    
+    public int getCash()
+    {
+        return cash;
+    }
     
 }

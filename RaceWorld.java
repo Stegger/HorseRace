@@ -13,20 +13,27 @@ public class RaceWorld extends World
     public static final int HEIGHT = 500;
     public static final int INITIAL_RUNNER_Y_OFFSET = 40;
     public static final int INITIAL_RUNNER_X_OFFSET = 30;
-    public static final int RUNNER_PADDING = 5;
+    public static final int RUNNER_PADDING = 15;
+    public static final int START_BUTTON_OFFSET = 30;
     
     private int totalRunners = 6;
     private int finishedRunners = 0;
     private WinnerList winnerList;
+    private StartRaceBtn startRaceBtn;
     
     /**
      * Constructor for objects of class RaceWorld.
      */
     public RaceWorld()
     {    
-        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(WIDTH, HEIGHT, 1); 
-        setPaintOrder(Runner.class, FinishLine.class);
+        setPaintOrder(TextArea.class, Runner.class, Player.class, FinishLine.class);
+        
+        startRaceBtn = new StartRaceBtn();
+        addObject(startRaceBtn, START_BUTTON_OFFSET, START_BUTTON_OFFSET * 3);
+        AddPlayerBtn addPlayerBtn = new AddPlayerBtn();
+        addObject(addPlayerBtn, START_BUTTON_OFFSET, START_BUTTON_OFFSET);
+        
         addRunnersToStart();
         drawFinishLine();     
         winnerList = new WinnerList();
@@ -48,25 +55,13 @@ public class RaceWorld extends World
         int yOffset = HEIGHT - INITIAL_RUNNER_Y_OFFSET;
         for(int i = 0; i < totalRunners; i++)
         {
-            Runner runner = new Runner("Wombat "+i);
+            Runner runner = new Runner("Wombat "+i, startRaceBtn);
             addObject(runner, INITIAL_RUNNER_X_OFFSET, yOffset);
             getBackground().setColor(Color.RED);
             getBackground().setFont(new Font(22));
             getBackground().drawString("#"+(totalRunners-i), INITIAL_RUNNER_X_OFFSET, yOffset);
-            drawRunnerOnScreen(runner, (totalRunners-i));
             yOffset -= (runner.getImage().getHeight() + RUNNER_PADDING);
         }
-    }
-    
-    /**
-     * Draws the Runner on the screen.
-     */
-    private void drawRunnerOnScreen(Runner runner, int lane)
-    {
-        int sizePerLane = 15;
-        getBackground().setColor(Color.RED);
-        getBackground().setFont(new Font(12));
-        getBackground().drawString("Lane #" + lane + ": " + runner.getName(), 15, sizePerLane * lane);
     }
     
     /**
@@ -85,11 +80,12 @@ public class RaceWorld extends World
     }
     
     /**
-     * Register a runner as having finished
+     * Register a runner as having finished and returns its position.
      */
-    public void runnerHasFinished(Runner runner)
+    public int runnerHasFinished(Runner runner)
     {
         finishedRunners++;
         winnerList.addRunner(runner);
+        return finishedRunners;
     }
 }
