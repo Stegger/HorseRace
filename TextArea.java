@@ -39,7 +39,7 @@ public class TextArea extends Actor
     {
         if(anchor != null)
         {
-            setLocation(anchor.getX(), anchor.getY()-yOffset);
+            setLocation(anchor.getX(), anchor.getY() - yOffset);
         }
     }    
 }

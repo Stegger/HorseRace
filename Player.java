@@ -26,8 +26,8 @@ public class Player extends ClickableActor
     {
         if(isGettingClicked())
         {
-            String betSizeString = javax.swing.JOptionPane.showInputDialog("Please enter bet size:");
-            int betSize = Integer.parseInt(betSizeString);
+            String betSizeString = Greenfoot.ask("Please enter bet size:");
+            int betSize = Integer.parseInt(betSizeString); //OBS This line might throw an error that we do NOT handle!
             getWorld().addObject(new Bet(this,betSize), mouse.getX(), mouse.getY());
             setCash(getCash()-betSize);
         }

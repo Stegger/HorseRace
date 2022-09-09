@@ -15,11 +15,15 @@ public abstract class ClickableActor extends Actor
     */
     public boolean isGettingClicked()
     {
+        //We ask greenfoot for all available mouse information:
         mouse = Greenfoot.getMouseInfo();
         if(mouse != null)
         {
+            //Is the mouse hovering over this actor AND is the primary button being clicked???
             return (this == mouse.getActor() && mouse.getButton() == 1);
         }
+        //If there is NO available mouse information we return false!!
         return false;
     }
+    
 }

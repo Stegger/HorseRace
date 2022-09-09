@@ -7,13 +7,13 @@ import javax.swing.*;
  * @author Stegger 
  * @version 1
  */
-public class Runner extends ClickableActor
+public class Runner extends SmoothMover
 {
-    public static final int RUNNER_BASE_SPEED = 1;
-    public static final int BASE_SPEED_ADDITION_RANGE = 4;
-    public static final int RANDOM_MOVE_FACTOR = 3;
+    public static final double RUNNER_BASE_SPEED = 1.0;
+    public static final double BASE_SPEED_ADDITION_RANGE = 4.0;
+    public static final double RANDOM_MOVE_FACTOR = 3.0;
     
-    private int baseSpeed;
+    private double baseSpeed;
     private boolean hasFinished;
     private int position;
     private String name;
@@ -31,7 +31,7 @@ public class Runner extends ClickableActor
         hasFinished = false;
         position = -1; //Set the position to negative one
         odds = 2;
-        baseSpeed = RUNNER_BASE_SPEED + Greenfoot.getRandomNumber(BASE_SPEED_ADDITION_RANGE);
+        baseSpeed = RUNNER_BASE_SPEED;
     }
     
     /**
@@ -58,7 +58,16 @@ public class Runner extends ClickableActor
         
         if(startRaceBtn.isRaceOn() && !isAtEdge()) //The runner will keep running to the end of the world
         {
-            move(baseSpeed + Greenfoot.getRandomNumber(RANDOM_MOVE_FACTOR)-(RANDOM_MOVE_FACTOR/2));
+            if(Greenfoot.getRandomNumber(100)<3)
+            {
+                 double addition = (((double)Greenfoot.getRandomNumber(100))/100.0) - 0.5;
+                 baseSpeed = baseSpeed + addition;
+                 if(baseSpeed < 0.0)
+                 {
+                     baseSpeed = 0.0;
+                 }
+            }
+            move(baseSpeed);
         }
     }
     

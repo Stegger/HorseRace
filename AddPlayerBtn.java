@@ -19,13 +19,14 @@ public class AddPlayerBtn extends ClickableActor
     {
         if(isGettingClicked())
         {
-            String name = javax.swing.JOptionPane.showInputDialog("Please enter player name:");
+            String name = Greenfoot.ask("Please enter player name:");
             if(name != null)
             {
                 addNewPlayerToWorld(name);
             }
         }
     }    
+    
     
     private void addNewPlayerToWorld(String name)
     {
